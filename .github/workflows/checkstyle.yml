@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - '*'
+  pull_request:
+    types:
+      - opened
+      - synchronize
 
 jobs:
   build:
@@ -25,3 +29,18 @@ jobs:
       - name: Verificar Checkstyle
         run: |
           mvn checkstyle:check -Dcheckstyle.failOnViolation=true
+
+      - name: Definir status de verificação
+        if: failure()
+        run: |
+          echo "::set-output name=status::failure"
+        else:
+          echo "::set-output name=status::success"
+
+      - name: Atualizar status de verificação no GitHub
+        run: |
+          token="${{ secrets.GITHUB_TOKEN }}"
+          repo="${{ github.repository }}"
+          pr="${{ github.event.pull_request.number }}"
+          status="${{ steps.build.outputs.status }}"
+          gh api "repos/$repo/statuses/$pr" -f "state=$status" -f "context=Checkstyle"
