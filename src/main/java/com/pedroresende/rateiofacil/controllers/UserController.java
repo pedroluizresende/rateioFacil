@@ -1,8 +1,10 @@
 package com.pedroresende.rateiofacil.controllers;
 
+import com.pedroresende.rateiofacil.controllers.dtos.BillDto;
 import com.pedroresende.rateiofacil.controllers.dtos.CreationUserDto;
 import com.pedroresende.rateiofacil.controllers.dtos.ResponseDto;
 import com.pedroresende.rateiofacil.controllers.dtos.UserDto;
+import com.pedroresende.rateiofacil.models.entities.Bill;
 import com.pedroresende.rateiofacil.models.entities.User;
 import com.pedroresende.rateiofacil.services.UserService;
 import java.util.List;
@@ -37,15 +39,12 @@ public class UserController {
    * Mapemaneto da rota POST /users.
    */
   @PostMapping()
-  public ResponseEntity<ResponseDto<UserDto>> create(
-      @RequestBody CreationUserDto creationUserDto) {
+  public ResponseEntity<ResponseDto<UserDto>> create(@RequestBody CreationUserDto creationUserDto) {
     User user = userService.create(creationUserDto.toEntity());
 
     UserDto userDto = toUserDto(user);
 
-    ResponseDto<UserDto> responseDto = new ResponseDto<>(
-        "Usuário criado com sucesso!", userDto
-    );
+    ResponseDto<UserDto> responseDto = new ResponseDto<>("Usuário criado com sucesso!", userDto);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
   }
@@ -90,9 +89,8 @@ public class UserController {
   public ResponseEntity<ResponseDto<UserDto>> update(@PathVariable Long id,
       @RequestBody CreationUserDto creationUserDto) {
     User user = userService.update(id, creationUserDto.toEntity());
-    ResponseDto<UserDto> responseDto = new ResponseDto<>(
-        "Usuário atualizado com sucesso", toUserDto(user)
-    );
+    ResponseDto<UserDto> responseDto = new ResponseDto<>("Usuário atualizado com sucesso",
+        toUserDto(user));
 
     return ResponseEntity.ok(responseDto);
   }
@@ -107,5 +105,43 @@ public class UserController {
     ResponseDto<UserDto> responseDto = new ResponseDto<>("Usuário deletado!", userDto);
 
     return ResponseEntity.ok(responseDto);
+  }
+
+  @PostMapping("/{id}/bills")
+  public ResponseEntity<ResponseDto<BillDto>> createCrop(@PathVariable Long id,
+      @RequestBody BillDto billDto) {
+    Bill bill = userService.associateBill(id, billDto.toEntity());
+
+    BillDto billDtoFromDb = toBillDto(bill);
+
+    ResponseDto<BillDto> responseDto = new ResponseDto<>("Conta associada com sucesso",
+        billDtoFromDb);
+    return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+  }
+
+
+  private BillDto toBillDto(Bill bill) {
+
+    if (bill.getUser() == null) {
+      return new BillDto(bill.getId(), null, bill.getEstablishment(), bill.getTotal());
+    }
+
+    return new BillDto(bill.getId(), bill.getUser().getId(), bill.getEstablishment(),
+        bill.getTotal());
+  }
+
+  @GetMapping("/{id}/bills")
+  ResponseEntity<List<BillDto>> getAllBills(@PathVariable Long id) {
+    List<Bill> bills = userService.getAllBill(id);
+    List<BillDto> billDtos = bills.stream().map(bill -> toBillDto(bill)).toList();
+
+    return ResponseEntity.ok(billDtos);
+  }
+
+  @GetMapping("/{id}/bills/{billId}")
+  ResponseEntity<BillDto> getBill(@PathVariable Long id, @PathVariable Long billId) {
+    Bill bill = userService.getBill(id, billId);
+
+    return ResponseEntity.ok(toBillDto(bill));
   }
 }

@@ -1,6 +1,7 @@
 package com.pedroresende.rateiofacil.controllers;
 
 import com.pedroresende.rateiofacil.controllers.dtos.ResponseDto;
+import com.pedroresende.rateiofacil.exceptions.NotFoundBillException;
 import com.pedroresende.rateiofacil.exceptions.NotFoundUserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,12 @@ public class ControllerAdvice {
    */
   @ExceptionHandler({NotFoundUserException.class})
   public ResponseEntity<ResponseDto<String>> handleNotFoundUserExcepetion(NotFoundUserException e) {
+    ResponseDto<String> responseDto = new ResponseDto<>(e.getMessage(), null);
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDto);
+  }
+  @ExceptionHandler({NotFoundBillException.class})
+  public ResponseEntity<ResponseDto<String>> handleNotFoundBillExcepetion(NotFoundBillException e) {
     ResponseDto<String> responseDto = new ResponseDto<>(e.getMessage(), null);
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDto);

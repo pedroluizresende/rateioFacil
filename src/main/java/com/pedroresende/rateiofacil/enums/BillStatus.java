@@ -1,5 +1,8 @@
 package com.pedroresende.rateiofacil.enums;
 
+/**
+ * enum BillStatus.
+ */
 public enum BillStatus {
   OPEN("OPEN"),
   CLOSED("CLOSED"),

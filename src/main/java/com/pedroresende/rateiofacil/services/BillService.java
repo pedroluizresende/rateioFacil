@@ -29,7 +29,6 @@ public class BillService implements BasicService<Bill> {
   @Override
   public Bill getById(Long id) {
     Optional<Bill> optionalBill = billRepository.findById(id);
-
     if (optionalBill.isEmpty()) {
       throw new NotFoundBillException();
     }
@@ -55,5 +54,9 @@ public class BillService implements BasicService<Bill> {
 
     billRepository.deleteById(id);
     return bill;
+  }
+
+  public List<Bill> getAllByUserId(Long userId) {
+    return billRepository.findAllByUserId(userId);
   }
 }

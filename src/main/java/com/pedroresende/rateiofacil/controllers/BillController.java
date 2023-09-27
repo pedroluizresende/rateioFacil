@@ -23,29 +23,18 @@ public class BillController {
   private final BillService billService;
 
   @Autowired
-
   public BillController(BillService billService) {
     this.billService = billService;
-  }
-
-  @PostMapping()
-  ResponseEntity<ResponseDto<BillDto>> create(@RequestBody BillDto billDto) {
-    Bill bill = billService.create(billDto.toEntity());
-    BillDto billDtoFromDb = toBillDto(bill);
-
-    ResponseDto<BillDto> responseDto = new ResponseDto<>(
-        "Usuário criado com sucesso", billDtoFromDb
-    );
-    return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
   }
 
   private BillDto toBillDto(Bill bill) {
 
     if (bill.getUser() == null) {
-      return new BillDto(bill.getId(), null, bill.getEstablishment());
+      return new BillDto(bill.getId(), null, bill.getEstablishment(), bill.getTotal());
     }
 
-    return new BillDto(bill.getId(), bill.getUser().getId(), bill.getEstablishment());
+    return new BillDto(bill.getId(), bill.getUser().getId(), bill.getEstablishment(),
+        bill.getTotal());
   }
 
   @GetMapping

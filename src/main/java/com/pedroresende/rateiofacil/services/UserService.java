@@ -1,8 +1,10 @@
 package com.pedroresende.rateiofacil.services;
 
 import com.pedroresende.rateiofacil.exceptions.NotFoundUserException;
+import com.pedroresende.rateiofacil.models.entities.Bill;
 import com.pedroresende.rateiofacil.models.entities.User;
 import com.pedroresende.rateiofacil.models.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,12 @@ import org.springframework.stereotype.Service;
 public class UserService implements BasicService<User>, UserDetailsService {
 
   private final UserRepository userRepository;
+  private final BillService billService;
 
   @Autowired
-  public UserService(UserRepository userRepository) {
+  public UserService(UserRepository userRepository, BillService billService) {
     this.userRepository = userRepository;
+    this.billService = billService;
   }
 
   @Override
@@ -68,5 +72,47 @@ public class UserService implements BasicService<User>, UserDetailsService {
   @Override
   public User loadUserByUsername(String username) throws UsernameNotFoundException {
     return userRepository.findUserByUsername(username);
+  }
+
+  /**
+   * Método responsável por associar uma conta á um usuário.
+   *
+   * @param id   identificador do usuário.
+   * @param bill conta a ser associada.
+   * @return nova conta instancia de Bill
+   */
+  @Transactional
+  public Bill associateBill(Long id, Bill bill) {
+    User user = getById(id);
+    bill.setUser(user);
+    Bill billFromDb = billService.create(bill);
+    user.getBills().add(billFromDb);
+    userRepository.save(user);
+    return billFromDb;
+  }
+
+  /**
+   * Retorna todas as contas de um usuário especifico.
+   *
+   * @param id identificador do usuário.
+   * @return lista de instancias de Bill
+   */
+  public List<Bill> getAllBill(Long id) {
+    User user = getById(id);
+    List<Bill> bills = billService.getAllByUserId(user.getId());
+    return bills;
+  }
+
+  /**
+   * Retorna uma conta de um usuário específico a partir do id da conta.
+   *
+   * @param id     identificador do usuário.
+   * @param billId identificador da conta.
+   * @return instancia de Bill
+   */
+  public Bill getBill(Long id, Long billId) {
+    User user = getById(id);
+    Bill bill = billService.getById(billId);
+    return bill;
   }
 }

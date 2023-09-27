@@ -44,6 +44,17 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     if ("DELETE".equals(request.getMethod()) && request.getRequestURI().matches("/users/\\d+")) {
       return true;
     }
+
+    if ("POST".equals(request.getMethod()) && request.getRequestURI().matches("/users/\\d+/bills")) {
+      return true;
+    }
+    if ("GET".equals(request.getMethod()) && request.getRequestURI().matches("/users/\\d+/bills")) {
+      return true;
+    }
+
+    if ("GET".equals(request.getMethod()) && request.getRequestURI().matches("/users/\\d+/bills/\\d+")) {
+      return true;
+    }
     return false;
   }
 
