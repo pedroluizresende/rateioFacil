@@ -1,5 +1,6 @@
 package com.pedroresende.rateiofacil.models.entities;
 
+import com.pedroresende.rateiofacil.enums.BillStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,16 +28,20 @@ public class Bill {
 
   private Double total;
 
+  private BillStatus status;
+
 
   public Bill() {
   }
 
-  public Bill(Long id, User user, String establishment, LocalDate date, Double total) {
+  public Bill(Long id, User user, String establishment, LocalDate date, Double total,
+      BillStatus status) {
     this.id = id;
     this.user = user;
     this.establishment = establishment;
     this.date = date;
     this.total = total;
+    this.status = status;
   }
 
   public Long getId() {
@@ -70,11 +75,20 @@ public class Bill {
   public void setDate(LocalDate date) {
     this.date = date;
   }
+
   public Double getTotal() {
     return total;
   }
 
   public void setTotal(Double total) {
     this.total = total;
+  }
+
+  public BillStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(BillStatus status) {
+    this.status = status;
   }
 }
