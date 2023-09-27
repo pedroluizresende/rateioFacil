@@ -22,6 +22,9 @@ public class ControllerAdvice {
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDto);
   }
+  /**
+   * Captura e trata os error de conta não encontrado.
+   */
   @ExceptionHandler({NotFoundBillException.class})
   public ResponseEntity<ResponseDto<String>> handleNotFoundBillExcepetion(NotFoundBillException e) {
     ResponseDto<String> responseDto = new ResponseDto<>(e.getMessage(), null);

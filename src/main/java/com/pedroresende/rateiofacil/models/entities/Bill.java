@@ -11,6 +11,9 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import org.springframework.data.annotation.CreatedDate;
 
+/**
+ * Entidade Bill.
+ */
 @Entity
 @Table(name = "bills")
 public class Bill {
@@ -34,6 +37,9 @@ public class Bill {
   public Bill() {
   }
 
+  /**
+   * Método construtor com parametros.
+   */
   public Bill(Long id, User user, String establishment, LocalDate date, Double total,
       BillStatus status) {
     this.id = id;

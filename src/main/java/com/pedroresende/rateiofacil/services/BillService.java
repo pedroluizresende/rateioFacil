@@ -9,6 +9,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Camada de serviço da rota /bill.
+ */
 @Service
 public class BillService implements BasicService<Bill> {
 

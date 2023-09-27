@@ -34,6 +34,3 @@ jobs:
       - name: Run Java Checkstyle evaluator
         id: checkstyle-evaluator
         uses: ./.github/actions/java-checkstyle-action
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pr_number: ${{ github.event.pull_request.number }}
