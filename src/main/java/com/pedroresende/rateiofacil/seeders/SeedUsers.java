@@ -7,6 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+/**
+ * Seeder para criação de usuário ADMIN.
+ */
 @Component
 public class SeedUsers implements CommandLineRunner {
 

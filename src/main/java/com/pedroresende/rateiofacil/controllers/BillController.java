@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Camada de controller da rota /bills.
+ */
 @RestController
 @RequestMapping("/bills")
 public class BillController {

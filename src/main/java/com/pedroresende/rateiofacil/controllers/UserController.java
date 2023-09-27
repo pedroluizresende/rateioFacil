@@ -107,6 +107,13 @@ public class UserController {
     return ResponseEntity.ok(responseDto);
   }
 
+  /**
+   * Mapeamento da rota POST /users/{id}/bills.
+   *
+   * @param id      identificador do usuário.
+   * @param billDto informações da conta.
+   * @return mensagem de sucesso e uma instancia de BillDto
+   */
   @PostMapping("/{id}/bills")
   public ResponseEntity<ResponseDto<BillDto>> createCrop(@PathVariable Long id,
       @RequestBody BillDto billDto) {
