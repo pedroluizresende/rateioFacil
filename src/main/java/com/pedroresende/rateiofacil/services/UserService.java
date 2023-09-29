@@ -38,7 +38,6 @@ public class UserService implements BasicService<User>, UserDetailsService {
   @Override
   public User getById(Long id) {
     Optional<User> optionalUser = userRepository.findById(id);
-
     if (optionalUser.isEmpty()) {
       throw new NotFoundUserException();
     }

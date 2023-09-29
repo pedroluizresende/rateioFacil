@@ -1,21 +1,28 @@
 package com.pedroresende.rateiofacil.models.entities;
 
 import com.pedroresende.rateiofacil.enums.BillStatus;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.List;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  * Entidade Bill.
  */
 @Entity
 @Table(name = "bills")
+@EntityListeners(AuditingEntityListener.class)
 public class Bill {
 
   @Id
@@ -29,6 +36,9 @@ public class Bill {
   @CreatedDate
   private LocalDate date;
 
+  @OneToMany(mappedBy = "bill")
+  private List<Item> items;
+
   private Double total;
 
   private BillStatus status;
@@ -40,7 +50,8 @@ public class Bill {
   /**
    * Método construtor com parametros.
    */
-  public Bill(Long id, User user, String establishment, LocalDate date, Double total,
+  public Bill(Long id, User user, String establishment, LocalDate date, List<Item> items,
+      Double total,
       BillStatus status) {
     this.id = id;
     this.user = user;
@@ -48,6 +59,7 @@ public class Bill {
     this.date = date;
     this.total = total;
     this.status = status;
+    this.items = items;
   }
 
   public Long getId() {
@@ -96,5 +108,13 @@ public class Bill {
 
   public void setStatus(BillStatus status) {
     this.status = status;
+  }
+
+  public List<Item> getItems() {
+    return items;
+  }
+
+  public void setItems(List<Item> items) {
+    this.items = items;
   }
 }

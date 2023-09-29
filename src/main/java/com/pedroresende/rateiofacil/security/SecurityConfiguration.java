@@ -26,13 +26,10 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfiguration {
 
   private final SecurityFilter securityFilter;
-  private final CustomAuthorizationFilter customAuthorizationFilter;
 
   @Autowired
-  public SecurityConfiguration(SecurityFilter securityFilter,
-      CustomAuthorizationFilter customAuthorizationFilter) {
+  public SecurityConfiguration(SecurityFilter securityFilter) {
     this.securityFilter = securityFilter;
-    this.customAuthorizationFilter = customAuthorizationFilter;
   }
 
   /**
@@ -50,7 +47,6 @@ public class SecurityConfiguration {
             .anyRequest().authenticated()
         )
         .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-        .addFilterBefore(customAuthorizationFilter, BasicAuthenticationFilter.class)
         .build();
   }
 

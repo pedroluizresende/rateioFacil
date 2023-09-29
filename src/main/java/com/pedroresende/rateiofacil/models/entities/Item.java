@@ -6,8 +6,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
+/**
+ * Entidade Item.
+ */
 @Entity
+@Table(name = "items")
 public class Item {
 
   @Id
@@ -26,6 +31,9 @@ public class Item {
   public Item() {
   }
 
+  /**
+   * Método construtor com parâmetros.
+   */
   public Item(Long id, Bill bill, String friend, String description, Double value) {
     this.id = id;
     this.bill = bill;
