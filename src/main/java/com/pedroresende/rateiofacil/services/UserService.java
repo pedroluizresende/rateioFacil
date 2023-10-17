@@ -55,8 +55,7 @@ public class UserService implements BasicService<User>, UserDetailsService {
     User userDb = getById(id);
     userDb.setName(user.getName());
     userDb.setEmail(user.getEmail());
-    userDb.setUsername(user.getUsername());
-    userDb.setPassword(user.getPassword());
+    userDb.setUsername(userDb.getUsername());
 
     return userRepository.save(userDb);
   }

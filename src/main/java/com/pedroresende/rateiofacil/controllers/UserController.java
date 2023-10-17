@@ -1,10 +1,6 @@
 package com.pedroresende.rateiofacil.controllers;
 
-import com.pedroresende.rateiofacil.controllers.dtos.BillDto;
-import com.pedroresende.rateiofacil.controllers.dtos.BillDtoWithitems;
-import com.pedroresende.rateiofacil.controllers.dtos.CreationUserDto;
-import com.pedroresende.rateiofacil.controllers.dtos.ResponseDto;
-import com.pedroresende.rateiofacil.controllers.dtos.UserDto;
+import com.pedroresende.rateiofacil.controllers.dtos.*;
 import com.pedroresende.rateiofacil.exceptions.NotAuthorizeUserException;
 import com.pedroresende.rateiofacil.models.entities.Bill;
 import com.pedroresende.rateiofacil.models.entities.User;
@@ -15,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -92,10 +89,10 @@ public class UserController {
    */
   @PutMapping("/{id}")
   public ResponseEntity<ResponseDto<UserDto>> update(@PathVariable Long id,
-      @RequestBody CreationUserDto creationUserDto,
+      @RequestBody UpdateUserDto updateUserDto,
       @AuthenticationPrincipal User authUser) {
     validateUserPermission(id, authUser);
-    User user = userService.update(id, creationUserDto.toEntity());
+    User user = userService.update(id, updateUserDto.toEntity());
     ResponseDto<UserDto> responseDto = new ResponseDto<>("Usuário atualizado com sucesso",
         toUserDto(user));
 
@@ -124,6 +121,7 @@ public class UserController {
    * @return mensagem de sucesso e uma instancia de BillDto
    */
   @PostMapping("/{id}/bills")
+  @CrossOrigin("http://localhost:7173")
   public ResponseEntity<ResponseDto<BillDto>> createBill(@PathVariable Long id,
       @RequestBody BillDto billDto,
       @AuthenticationPrincipal User authUser) {

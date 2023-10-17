@@ -118,7 +118,7 @@ public class BillController {
    * Mapeamento da rota GET /bills/{id}/items, retorna lista de itens de uma conta.
    */
   @GetMapping("/{id}/items")
-  public ResponseEntity<List<ItemDto>> getitems(@PathVariable Long id,
+  public ResponseEntity<List<ItemDto>> getItems(@PathVariable Long id,
       @AuthenticationPrincipal User user) {
     validateUserPermission(id, user);
 
