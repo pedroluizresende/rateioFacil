@@ -80,6 +80,7 @@ public class BillService implements BasicService<Bill> {
     bill.getItems().add(item);
     bill.setTotal(Calculator.addItem(bill.getTotal(), item.getValue()));
     billRepository.save(bill);
+    System.out.println(bill.getTotal());
     return itemFromDb;
   }
 
@@ -119,7 +120,7 @@ public class BillService implements BasicService<Bill> {
    */
   public Result calculate(Long id) {
     Bill bill = getById(id);
-    Result result = new Result(bill.getId(), bill.getUser().getId(), bill.getEstablishment(),
+    Result result = new Result( bill.getUser().getId(),bill.getId(), bill.getEstablishment(),
         bill.getDate(), bill.getTotal(), bill.getItems());
 
     return result;

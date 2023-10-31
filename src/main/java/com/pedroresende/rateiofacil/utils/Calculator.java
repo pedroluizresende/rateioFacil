@@ -15,6 +15,8 @@ public class Calculator {
   public static Double addItem(Double total, Double itemValue) {
     double result = total + itemValue;
 
+    result = Math.round(result * 100) / 100.0;
+
     return result;
   }
 

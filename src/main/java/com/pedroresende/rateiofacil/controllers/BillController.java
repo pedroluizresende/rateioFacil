@@ -105,7 +105,7 @@ public class BillController {
       @AuthenticationPrincipal User user
   ) {
     validateUserPermission(id, user);
-
+    System.out.println("entrei aqui");
     Item item = billService.addItem(id, itemDto.toEntity());
     ItemDto itemDtoDb = toItemDto(item);
     ResponseDto<ItemDto> responseDto = new ResponseDto<>(

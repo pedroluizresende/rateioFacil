@@ -5,6 +5,7 @@ import com.pedroresende.rateiofacil.exceptions.NotAuthorizeUserException;
 import com.pedroresende.rateiofacil.models.entities.Bill;
 import com.pedroresende.rateiofacil.models.entities.User;
 import com.pedroresende.rateiofacil.services.UserService;
+import com.pedroresende.rateiofacil.utils.Calculator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -140,7 +141,7 @@ public class UserController {
 
     if (bill.getUser() == null) {
       return new BillDto(bill.getId(), null, bill.getDate(), bill.getEstablishment(),
-          bill.getTotal());
+          Calculator.sumValues(bill.getTotal(), 0.0));
     }
 
     return new BillDto(bill.getId(), bill.getUser().getId(), bill.getDate(),
