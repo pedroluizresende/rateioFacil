@@ -15,6 +15,6 @@ public record CreationUserDto(String name, String email, String username, String
                               String role) {
 
   public User toEntity() {
-    return new User(null, name, email, username, password, role);
+    return new User(null, name, email, username, password, role, null);
   }
 }

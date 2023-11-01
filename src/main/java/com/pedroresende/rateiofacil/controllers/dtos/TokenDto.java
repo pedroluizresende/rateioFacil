@@ -5,6 +5,6 @@ package com.pedroresende.rateiofacil.controllers.dtos;
  *
  * @param token token à ser retornado.
  */
-public record TokenDto(String token) {
+public record TokenDto(String token, UserDto user) {
 
 }

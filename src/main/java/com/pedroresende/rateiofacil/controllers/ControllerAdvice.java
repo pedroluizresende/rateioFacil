@@ -1,6 +1,9 @@
 package com.pedroresende.rateiofacil.controllers;
 
 import com.pedroresende.rateiofacil.controllers.dtos.ResponseDto;
+import com.pedroresende.rateiofacil.exceptions.NotAuthorizeUserException;
+import com.pedroresende.rateiofacil.exceptions.NotFoundBillException;
+import com.pedroresende.rateiofacil.exceptions.NotFoundItemException;
 import com.pedroresende.rateiofacil.exceptions.NotFoundUserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,37 @@ public class ControllerAdvice {
    */
   @ExceptionHandler({NotFoundUserException.class})
   public ResponseEntity<ResponseDto<String>> handleNotFoundUserExcepetion(NotFoundUserException e) {
+    ResponseDto<String> responseDto = new ResponseDto<>(e.getMessage(), null);
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDto);
+  }
+
+  /**
+   * Captura e trata os error de conta não encontrado.
+   */
+  @ExceptionHandler({NotFoundBillException.class})
+  public ResponseEntity<ResponseDto<String>> handleNotFoundBillExcepetion(NotFoundBillException e) {
+    ResponseDto<String> responseDto = new ResponseDto<>(e.getMessage(), null);
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDto);
+  }
+
+  /**
+   * Captura e trata os erros de usuário não autorizado.
+   */
+  @ExceptionHandler({NotAuthorizeUserException.class})
+  public ResponseEntity<ResponseDto<String>> handleNotAuthorizeUserException(
+      NotAuthorizeUserException e) {
+    ResponseDto<String> responseDto = new ResponseDto<>(e.getMessage(), null);
+
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseDto);
+  }
+
+  /**
+   * Captura e trata os erros de item não encontrado.
+   */
+  @ExceptionHandler({NotFoundItemException.class})
+  public ResponseEntity<ResponseDto<String>> handleNotFoundItemExcepetion(NotFoundItemException e) {
     ResponseDto<String> responseDto = new ResponseDto<>(e.getMessage(), null);
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDto);

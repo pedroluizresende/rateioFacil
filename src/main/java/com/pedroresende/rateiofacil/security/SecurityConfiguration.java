@@ -26,13 +26,10 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfiguration {
 
   private final SecurityFilter securityFilter;
-  private final CustomAuthorizationFilter customAuthorizationFilter;
 
   @Autowired
-  public SecurityConfiguration(SecurityFilter securityFilter,
-      CustomAuthorizationFilter customAuthorizationFilter) {
+  public SecurityConfiguration(SecurityFilter securityFilter) {
     this.securityFilter = securityFilter;
-    this.customAuthorizationFilter = customAuthorizationFilter;
   }
 
   /**
@@ -45,12 +42,12 @@ public class SecurityConfiguration {
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(authorize -> authorize
+            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .requestMatchers(HttpMethod.POST, "/users").permitAll()
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
             .anyRequest().authenticated()
         )
         .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-        .addFilterBefore(customAuthorizationFilter, BasicAuthenticationFilter.class)
         .build();
   }
 
@@ -64,5 +61,4 @@ public class SecurityConfiguration {
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
-
 }

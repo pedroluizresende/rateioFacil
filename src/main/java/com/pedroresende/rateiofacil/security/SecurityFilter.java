@@ -36,7 +36,6 @@ public class SecurityFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
     String token = recoveryToken(request);
-
     if (token != null) {
       String subject = tokenService.validateToken(token);
       UserDetails userDetails = userService.loadUserByUsername(subject);
