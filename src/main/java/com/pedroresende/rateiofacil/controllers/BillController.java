@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,11 +45,11 @@ public class BillController {
 
     if (bill.getUser() == null) {
       return new BillDto(bill.getId(), null, bill.getDate(),
-          bill.getEstablishment(), bill.getTotal());
+          bill.getEstablishment(), bill.getTotal(), bill.getStatus());
     }
 
     return new BillDto(bill.getId(), bill.getUser().getId(), bill.getDate(),
-        bill.getEstablishment(), bill.getTotal());
+        bill.getEstablishment(), bill.getTotal(),bill.getStatus());
   }
 
   @GetMapping
@@ -159,6 +160,19 @@ public class BillController {
     ResponseDto<ItemDto> responseDto = new ResponseDto<>("Item Removido com sucesso!", itemDto);
 
     return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+  }
+
+  @PutMapping("/{id}/finish")
+  public ResponseEntity<ResponseDto<BillDto>> finish(@PathVariable Long id,
+      @AuthenticationPrincipal User user) {
+    validateUserPermission(id, user);
+
+    Bill bill = billService.finish(id);
+    BillDto billDto = toBillDto(bill);
+
+    ResponseDto<BillDto> responseDto = new ResponseDto<>("Conta finalizada com sucesso!", billDto);
+
+    return ResponseEntity.ok(responseDto);
   }
 
   private void validateUserPermission(Long billId, User authUser) {

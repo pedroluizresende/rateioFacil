@@ -66,6 +66,14 @@ public class BillService implements BasicService<Bill> {
     return bill;
   }
 
+  public Bill finish(Long id) {
+    Bill bill = getById(id);
+
+    bill.setStatus(BillStatus.CLOSED);
+
+    return billRepository.save(bill);
+  }
+
   public List<Bill> getAllByUserId(Long userId) {
     return billRepository.findAllByUserId(userId);
   }
@@ -120,7 +128,7 @@ public class BillService implements BasicService<Bill> {
    */
   public Result calculate(Long id) {
     Bill bill = getById(id);
-    Result result = new Result( bill.getUser().getId(),bill.getId(), bill.getEstablishment(),
+    Result result = new Result(bill.getUser().getId(), bill.getId(), bill.getEstablishment(),
         bill.getDate(), bill.getTotal(), bill.getItems());
 
     return result;

@@ -141,11 +141,11 @@ public class UserController {
 
     if (bill.getUser() == null) {
       return new BillDto(bill.getId(), null, bill.getDate(), bill.getEstablishment(),
-          Calculator.sumValues(bill.getTotal(), 0.0));
+          Calculator.sumValues(bill.getTotal(), 0.0), bill.getStatus());
     }
 
     return new BillDto(bill.getId(), bill.getUser().getId(), bill.getDate(),
-        bill.getEstablishment(), bill.getTotal());
+        bill.getEstablishment(), bill.getTotal(), bill.getStatus());
   }
 
   private BillDtoWithitems toBillDtoWithitems(Bill bill) {
@@ -174,6 +174,16 @@ public class UserController {
     Bill bill = userService.getBill(id, billId);
 
     return ResponseEntity.ok(toBillDto(bill));
+  }
+
+  @DeleteMapping("/{id}/bills/{billId}")
+  ResponseEntity<ResponseDto<BillDto>> deleteBill(@PathVariable Long id, @PathVariable Long billId,
+      @AuthenticationPrincipal User authUser) {
+    validateUserPermission(id, authUser);
+    Bill bill = userService.deleteBill(id, billId);
+    BillDto billDto = toBillDto(bill);
+    ResponseDto<BillDto> responseDto = new ResponseDto<>("Conta deletada com sucesso", billDto);
+    return ResponseEntity.ok(responseDto);
   }
 
   private void validateUserPermission(Long pathId, User authUser) {

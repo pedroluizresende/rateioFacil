@@ -113,4 +113,14 @@ public class UserService implements BasicService<User>, UserDetailsService {
     Bill bill = billService.getById(billId);
     return bill;
   }
+
+  @Transactional
+  public Bill deleteBill(Long id, Long billId) {
+    User user = getById(id);
+    Bill bill = billService.delete(billId);
+    user.getBills().remove(bill);
+    userRepository.save(user);
+
+    return bill;
+  }
 }

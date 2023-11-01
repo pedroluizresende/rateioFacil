@@ -5,9 +5,7 @@ package com.pedroresende.rateiofacil.enums;
  */
 public enum BillStatus {
   OPEN("OPEN"),
-  CLOSED("CLOSED"),
-  CANCELLED("CANCELLED");
-
+  CLOSED("CLOSED");
   private final String name;
 
   BillStatus(String name) {
