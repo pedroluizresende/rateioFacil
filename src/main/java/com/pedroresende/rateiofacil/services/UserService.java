@@ -1,5 +1,6 @@
 package com.pedroresende.rateiofacil.services;
 
+import com.pedroresende.rateiofacil.exceptions.BadRequestException;
 import com.pedroresende.rateiofacil.exceptions.NotFoundUserException;
 import com.pedroresende.rateiofacil.models.entities.Bill;
 import com.pedroresende.rateiofacil.models.entities.User;
@@ -28,8 +29,20 @@ public class UserService implements BasicService<User>, UserDetailsService {
     this.billService = billService;
   }
 
+  private void validatePassword(String password) {
+
+    if (password == null) {
+      throw new BadRequestException("Senha é obrigatória!");
+    }
+
+    if (password.length() < 6) {
+      throw new BadRequestException("A senha precisa ter no mínimo 6 caracteres!");
+    }
+  }
+
   @Override
   public User create(User user) {
+    validatePassword(user.getPassword());
     String hashedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
     user.setPassword(hashedPassword);
     return userRepository.save(user);
@@ -114,13 +127,19 @@ public class UserService implements BasicService<User>, UserDetailsService {
     return bill;
   }
 
+  /**
+   * Método responsável por deletar uma conta.
+   *
+   * @param id     identificador do usuário.
+   * @param billId identificador da conta.
+   * @return conta deletada
+   */
   @Transactional
   public Bill deleteBill(Long id, Long billId) {
     User user = getById(id);
     Bill bill = billService.delete(billId);
     user.getBills().remove(bill);
     userRepository.save(user);
-
     return bill;
   }
 }

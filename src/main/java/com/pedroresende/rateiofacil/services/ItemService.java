@@ -59,7 +59,7 @@ public class ItemService implements BasicService<Item> {
     return intemRepository.findAllByBillId(id);
   }
 
-  public List<Item> getByFriend(String friend) {
-    return intemRepository.findAllByFriend(friend);
+  public List<Item> getByFriendAndBillId(String friend, Long billId) {
+    return intemRepository.findAllByFriendAndBillId(friend, billId);
   }
 }

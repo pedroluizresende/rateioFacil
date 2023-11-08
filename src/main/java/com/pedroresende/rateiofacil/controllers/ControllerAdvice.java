@@ -1,10 +1,13 @@
 package com.pedroresende.rateiofacil.controllers;
 
 import com.pedroresende.rateiofacil.controllers.dtos.ResponseDto;
+import com.pedroresende.rateiofacil.exceptions.BadRequestException;
 import com.pedroresende.rateiofacil.exceptions.NotAuthorizeUserException;
 import com.pedroresende.rateiofacil.exceptions.NotFoundBillException;
 import com.pedroresende.rateiofacil.exceptions.NotFoundItemException;
 import com.pedroresende.rateiofacil.exceptions.NotFoundUserException;
+import javax.naming.AuthenticationException;
+import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties.Http;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -54,5 +57,20 @@ public class ControllerAdvice {
     ResponseDto<String> responseDto = new ResponseDto<>(e.getMessage(), null);
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDto);
+  }
+
+  @ExceptionHandler({BadRequestException.class})
+  public ResponseEntity<ResponseDto<String>> handleBadRequestException(BadRequestException e) {
+    ResponseDto<String> responseDto = new ResponseDto<>(e.getMessage(), null);
+
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDto);
+  }
+
+  @ExceptionHandler(AuthenticationException.class)
+  public ResponseEntity<ResponseDto<String>> handleAuthenticationException(
+      AuthenticationException e) {
+    ResponseDto<String> responseDto = new ResponseDto<>(e.getMessage(), null);
+
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDto);
   }
 }

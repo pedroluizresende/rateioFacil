@@ -1,6 +1,11 @@
 package com.pedroresende.rateiofacil.controllers;
 
-import com.pedroresende.rateiofacil.controllers.dtos.*;
+import com.pedroresende.rateiofacil.controllers.dtos.BillDto;
+import com.pedroresende.rateiofacil.controllers.dtos.BillDtoWithitems;
+import com.pedroresende.rateiofacil.controllers.dtos.CreationUserDto;
+import com.pedroresende.rateiofacil.controllers.dtos.ResponseDto;
+import com.pedroresende.rateiofacil.controllers.dtos.UpdateUserDto;
+import com.pedroresende.rateiofacil.controllers.dtos.UserDto;
 import com.pedroresende.rateiofacil.exceptions.NotAuthorizeUserException;
 import com.pedroresende.rateiofacil.models.entities.Bill;
 import com.pedroresende.rateiofacil.models.entities.User;
