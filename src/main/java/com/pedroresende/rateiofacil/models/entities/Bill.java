@@ -1,6 +1,7 @@
 package com.pedroresende.rateiofacil.models.entities;
 
 import com.pedroresende.rateiofacil.enums.BillStatus;
+import com.pedroresende.rateiofacil.listeners.BillListener;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -22,7 +23,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  */
 @Entity
 @Table(name = "bills")
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners({AuditingEntityListener.class, BillListener.class})
 public class Bill {
 
   @Id
@@ -36,7 +37,7 @@ public class Bill {
   @CreatedDate
   private LocalDate date;
 
-  @OneToMany(mappedBy = "bill")
+  @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Item> items;
 
   private Double total;
@@ -51,8 +52,7 @@ public class Bill {
    * Método construtor com parametros.
    */
   public Bill(Long id, User user, String establishment, LocalDate date, List<Item> items,
-      Double total,
-      BillStatus status) {
+      Double total, BillStatus status) {
     this.id = id;
     this.user = user;
     this.establishment = establishment;

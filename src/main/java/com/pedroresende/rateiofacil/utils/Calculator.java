@@ -28,8 +28,6 @@ public class Calculator {
 
     double taxService = value * tax;
 
-    taxService = Math.round(taxService * 100) / 100.0;
-
     return taxService;
   }
 
@@ -38,8 +36,6 @@ public class Calculator {
    */
   public static Double sumValues(double value1, double value2) {
     double result = value1 + value2;
-
-    result = Math.round(result * 100.0) / 100.0;
 
     return result;
   }

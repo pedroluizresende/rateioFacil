@@ -1,7 +1,9 @@
 package com.pedroresende.rateiofacil.models.entities;
 
+import com.pedroresende.rateiofacil.listeners.UserListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Entity
 @Table(name = "users")
+@EntityListeners(UserListener.class)
 public class User implements UserDetails, GrantedAuthority {
 
   @Id

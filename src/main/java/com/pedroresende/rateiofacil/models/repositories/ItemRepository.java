@@ -13,5 +13,5 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
   List<Item> findAllByBillId(Long billId);
 
-  List<Item> findAllByFriend(String friend);
+  List<Item> findAllByFriendAndBillId(String friend, Long billId);
 }
