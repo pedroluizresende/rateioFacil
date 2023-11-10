@@ -2,7 +2,6 @@
 FROM maven:3.8.4-openjdk-17 AS builder
 
 # Configurar variáveis de ambiente
-ENV SPRING_PROFILES_ACTIVE=prod
 
 # Criar um diretório de trabalho dentro do contêiner
 WORKDIR /app
