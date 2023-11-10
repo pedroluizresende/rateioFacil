@@ -28,11 +28,10 @@ public class SeedUsers implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     List<User> allUsers = userRepository.findAll();
-    System.out.println("---------------------MEU LOG----------------------------");
-    System.out.println(allUsers.size());
+    System.out.println("-----------------------Seeders---------------------");
 
     if (allUsers.size() == 0) {
-
+      System.out.println("Criando admin!");
       String adminName = env.getProperty("admin.name", "Admin");
       String adminEmail = env.getProperty("admin.email", "admin@admin.com");
       String adminUsername = env.getProperty("admin.username", "admin");
@@ -44,5 +43,6 @@ public class SeedUsers implements CommandLineRunner {
       user.setPassword(hashedPassword);
       userRepository.save(user);
     }
+    System.out.println("Admin já existente!");
   }
 }
