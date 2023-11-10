@@ -11,6 +11,7 @@ import jakarta.persistence.PreUpdate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,8 @@ public class UserListener {
 
   private final TokenService tokenService;
   private final Emailservice emailservice;
+  @Value("${frontend.url}")
+  private String frontUrl;
 
   public UserListener(TokenService tokenService, Emailservice emailservice) {
     this.tokenService = tokenService;
@@ -88,7 +91,7 @@ public class UserListener {
 
     if (user.getRole() != "admin") {
 
-      String confirmatilUrl = "http://localhost:5173/confirmacao?token=" + token;
+      String confirmatilUrl = this.frontUrl + "/confirmacao?token=" + token;
 
       String emailMessage =
           "Clique no link a seguir para confirmar seus cadastro: " + confirmatilUrl;
