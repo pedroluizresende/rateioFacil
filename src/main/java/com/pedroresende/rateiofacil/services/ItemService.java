@@ -24,6 +24,8 @@ public class ItemService implements BasicService<Item> {
 
   @Override
   public Item create(Item item) {
+    System.out.println("----------------------------------------------");
+    System.out.println("descrição: " + item.getDescription());
     return intemRepository.save(item);
   }
 

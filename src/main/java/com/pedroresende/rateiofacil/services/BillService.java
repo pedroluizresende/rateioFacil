@@ -98,7 +98,6 @@ public class BillService implements BasicService<Bill> {
     bill.getItems().add(item);
     bill.setTotal(itemFromDb.getValue() + bill.getTotal());
     billRepository.save(bill);
-    System.out.println(bill.getTotal());
     itemFromDb.getValue();
     return itemFromDb;
   }
