@@ -1,0 +1,5 @@
+watchers:
+  - name: app
+    paths:
+      - 'src/**'
+      - '*.java'
