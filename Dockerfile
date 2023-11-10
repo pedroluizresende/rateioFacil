@@ -1,16 +1,33 @@
-FROM eclipse-temurin:17-jdk-jammy as build-image
+# Etapa 1: Construir a aplicação
+FROM maven:3.8.4-openjdk-17 AS builder
+
+# Configurar variáveis de ambiente
+ENV SPRING_PROFILES_ACTIVE=prod
+
+# Criar um diretório de trabalho dentro do contêiner
 WORKDIR /app
 
-COPY .mvn/ .mvn
-COPY ./src/main/ ./src/main/
-COPY mvnw pom.xml ./
+# Copiar apenas os arquivos necessários para a construção
+COPY src src
+COPY pom.xml .
 
-RUN ./mvnw clean package
+# Empacotar a aplicação (build)
+RUN mvn clean package -Pprod
 
+# Etapa 2: Executar a aplicação
+FROM openjdk:17-jdk-slim
 
-FROM eclipse-temurin:17-jre-jammy
+# Criar um diretório de trabalho dentro do contêiner
+WORKDIR /app
 
-COPY --from=build-image /app/target/*.jar /app/app.jar
+# Copiar apenas os artefatos necessários da etapa 1
+COPY --from=builder /app/target/nome-do-seu-arquivo.jar /app/app.jar
 
+# Expor a porta que a aplicação Spring Boot utiliza (por padrão, é a porta 8080)
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+
+# Configurar algumas opções para a execução em produção (ajuste conforme necessário)
+ENV JAVA_OPTS="-Xmx256m -Xms128m"
+
+# Comando para executar a aplicação quando o contêiner iniciar
+CMD ["java", "-jar", "app.jar"]
