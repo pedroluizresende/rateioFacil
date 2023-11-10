@@ -28,7 +28,7 @@ public class SeedUsers implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     List<User> allUsers = userRepository.findAll();
-    System.out.println("------------------MEU LOG--------------------");
+    System.out.println("---------------------MEU LOG----------------------------");
     System.out.println(allUsers.size());
 
     if (allUsers.size() == 0) {
