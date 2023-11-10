@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+/**
+ * UserListener.
+ */
 @Component
 public class UserListener {
 
@@ -85,6 +88,11 @@ public class UserListener {
     validateUser(user);
   }
 
+  /**
+   * Método chamado após inserção de usuário no banco e envia email de confirmação.
+   *
+   * @param user usuário inserido.
+   */
   @PostPersist
   public void senEmailConfirm(User user) {
     String token = tokenService.generateToken(user);

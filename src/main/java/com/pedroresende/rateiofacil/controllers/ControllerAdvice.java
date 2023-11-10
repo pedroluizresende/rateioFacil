@@ -59,6 +59,12 @@ public class ControllerAdvice {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDto);
   }
 
+  /**
+   * Captura e trata erros de badrequest.
+   *
+   * @param e exceção do tipo BadRequest.
+   * @return status 400 e mensagem de erro
+   */
   @ExceptionHandler({BadRequestException.class})
   public ResponseEntity<ResponseDto<String>> handleBadRequestException(BadRequestException e) {
     ResponseDto<String> responseDto = new ResponseDto<>(e.getMessage(), null);
@@ -66,6 +72,12 @@ public class ControllerAdvice {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDto);
   }
 
+  /**
+   * Captura e trata erros de Atuthenticação.
+   *
+   * @param e exceção do tipo AuthenticationExcepetion.
+   * @return retorna status 400 e mensagem de erro
+   */
   @ExceptionHandler(AuthenticationException.class)
   public ResponseEntity<ResponseDto<String>> handleAuthenticationException(
       AuthenticationException e) {

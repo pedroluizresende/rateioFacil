@@ -5,6 +5,9 @@ import com.pedroresende.rateiofacil.models.entities.Item;
 import jakarta.persistence.PrePersist;
 import org.springframework.stereotype.Component;
 
+/**
+ * ItemListener.
+ */
 @Component
 public class ItemListener {
 

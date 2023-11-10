@@ -5,9 +5,18 @@ import com.pedroresende.rateiofacil.models.entities.Bill;
 import jakarta.persistence.PrePersist;
 import org.springframework.stereotype.Component;
 
+/**
+ * BillListener.
+ */
 @Component
 public class BillListener {
 
+  /**
+   * Método responsável por validar as informações de uma nova conta antes da inserção no banco de
+   * dados.
+   *
+   * @param bill conta a ser inserida.
+   */
   @PrePersist
   public void validateNewBill(Bill bill) {
     if (bill.getEstablishment() == null) {

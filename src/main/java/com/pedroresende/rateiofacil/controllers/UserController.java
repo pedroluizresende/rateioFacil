@@ -78,7 +78,13 @@ public class UserController {
     return ResponseEntity.ok(userDtos);
   }
 
-
+  /**
+   * Mapeamento da rota /users/confirmation, responsável por confirmar cadastro de um usuário
+   * alterando seu status para confirmed.
+   *
+   * @param user usuário a ser confirmado.
+   * @return status 200 e mensagem de sucesso junto com informações do usuário
+   */
   @PutMapping("/confirmation")
   public ResponseEntity<ResponseDto<UserDto>> confirmUser(
       @AuthenticationPrincipal User user

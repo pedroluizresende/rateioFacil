@@ -12,6 +12,9 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+/**
+ * EmailService.
+ */
 @Service
 public class Emailservice {
 
@@ -23,6 +26,13 @@ public class Emailservice {
   public Emailservice() {
   }
 
+  /**
+   * Método responsável por enviar um email.
+   *
+   * @param to      email destinatário.
+   * @param subject assunto do email.
+   * @param message mensagem do email.
+   */
   public void sendEmail(String to, String subject, String message) {
     Properties props = new Properties();
     props.put("mail.smtp.auth", true);

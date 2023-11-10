@@ -145,6 +145,12 @@ public class UserService implements BasicService<User>, UserDetailsService {
     return bill;
   }
 
+  /**
+   * Método que altera o status de um usuário para confirmado.
+   *
+   * @param id identificador do usuário.
+   * @return retorna o usuário atualizado
+   */
   public User confirmUser(Long id) {
     User user = getById(id);
 
