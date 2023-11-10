@@ -3,6 +3,7 @@ package com.pedroresende.rateiofacil.seeders;
 import com.pedroresende.rateiofacil.enums.UserStatus;
 import com.pedroresende.rateiofacil.models.entities.User;
 import com.pedroresende.rateiofacil.models.repositories.UserRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.env.Environment;
@@ -26,15 +27,20 @@ public class SeedUsers implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    String adminName = env.getProperty("admin.name", "Admin");
-    String adminEmail = env.getProperty("admin.email", "admin@admin.com");
-    String adminUsername = env.getProperty("admin.username", "admin");
-    String adminPassword = env.getProperty("admin.password", "admin123");
+    List<User> allUsers = userRepository.findAll();
 
-    User user = new User(null, adminName, adminEmail, adminUsername, adminPassword, "admin", null,
-        UserStatus.CONFIRMED);
-    String hashedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
-    user.setPassword(hashedPassword);
-    userRepository.save(user);
+    if (allUsers.size() <= 0) {
+
+      String adminName = env.getProperty("admin.name", "Admin");
+      String adminEmail = env.getProperty("admin.email", "admin@admin.com");
+      String adminUsername = env.getProperty("admin.username", "admin");
+      String adminPassword = env.getProperty("admin.password", "admin123");
+
+      User user = new User(null, adminName, adminEmail, adminUsername, adminPassword, "admin", null,
+          UserStatus.CONFIRMED);
+      String hashedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+      user.setPassword(hashedPassword);
+      userRepository.save(user);
+    }
   }
 }
