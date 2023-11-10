@@ -1,5 +1,6 @@
 package com.pedroresende.rateiofacil.models.entities;
 
+import com.pedroresende.rateiofacil.enums.UserStatus;
 import com.pedroresende.rateiofacil.listeners.UserListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,6 +34,8 @@ public class User implements UserDetails, GrantedAuthority {
   private String password;
   private String role;
 
+  private UserStatus status;
+
   @OneToMany(mappedBy = "user")
   private List<Bill> bills;
 
@@ -43,7 +46,7 @@ public class User implements UserDetails, GrantedAuthority {
    * Método construtor com paramêtros.
    */
   public User(Long id, String name, String email, String username, String password, String role,
-      List<Bill> bills) {
+      List<Bill> bills, UserStatus status) {
     this.id = id;
     this.name = name;
     this.email = email;
@@ -51,6 +54,7 @@ public class User implements UserDetails, GrantedAuthority {
     this.password = password;
     this.role = role;
     this.bills = bills;
+    this.status = status;
   }
 
   public Long getId() {
@@ -87,6 +91,14 @@ public class User implements UserDetails, GrantedAuthority {
 
   public void setBills(List<Bill> bills) {
     this.bills = bills;
+  }
+
+  public UserStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(UserStatus status) {
+    this.status = status;
   }
 
   @Override

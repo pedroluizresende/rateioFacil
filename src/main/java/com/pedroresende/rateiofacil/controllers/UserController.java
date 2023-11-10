@@ -78,6 +78,18 @@ public class UserController {
     return ResponseEntity.ok(userDtos);
   }
 
+
+  @PutMapping("/confirmation")
+  public ResponseEntity<ResponseDto<UserDto>> confirmUser(
+      @AuthenticationPrincipal User user
+  ) {
+    UserDto userDto = toUserDto(userService.confirmUser(user.getId()));
+
+    ResponseDto<UserDto> responseDto = new ResponseDto<>("Email confirmado com sucesso!", userDto);
+
+    return ResponseEntity.ok(responseDto);
+  }
+
   /**
    * Mapeamento da rota GET users/{id}.
    */
