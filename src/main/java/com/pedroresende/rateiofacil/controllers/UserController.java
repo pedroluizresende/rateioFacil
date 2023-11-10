@@ -13,6 +13,7 @@ import com.pedroresende.rateiofacil.services.UserService;
 import com.pedroresende.rateiofacil.utils.Calculator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -145,7 +146,7 @@ public class UserController {
    * @return mensagem de sucesso e uma instancia de BillDto
    */
   @PostMapping("/{id}/bills")
-  @CrossOrigin("http://localhost:7173")
+  @CrossOrigin(value = "$frontend.url")
   public ResponseEntity<ResponseDto<BillDto>> createBill(@PathVariable Long id,
       @RequestBody BillDto billDto,
       @AuthenticationPrincipal User authUser) {
