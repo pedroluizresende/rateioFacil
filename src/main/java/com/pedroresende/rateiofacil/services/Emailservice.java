@@ -9,13 +9,19 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class Emailservice {
 
-  private final String username = "contato.rateiofacil@gmail.com";
-  private final String password = "wmjj xyfq voim vkah";
+  @Value("${email.username}")
+  private String username;
+  @Value("${email.password}")
+  private String password;
+
+  public Emailservice() {
+  }
 
   public void sendEmail(String to, String subject, String message) {
     Properties props = new Properties();
