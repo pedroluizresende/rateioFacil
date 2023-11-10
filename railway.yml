@@ -1,0 +1,10 @@
+name: my-spring-boot-app
+
+services:
+  - name: backend
+    buildCommand: ./mvnw clean install
+    runCommand: java -jar target/your-spring-boot-app.jar
+
+plugins:
+  - name: java
+    version: '16'
