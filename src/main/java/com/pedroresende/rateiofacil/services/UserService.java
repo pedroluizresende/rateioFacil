@@ -1,5 +1,6 @@
 package com.pedroresende.rateiofacil.services;
 
+import com.pedroresende.rateiofacil.enums.UserStatus;
 import com.pedroresende.rateiofacil.exceptions.BadRequestException;
 import com.pedroresende.rateiofacil.exceptions.NotFoundUserException;
 import com.pedroresende.rateiofacil.models.entities.Bill;
@@ -45,6 +46,7 @@ public class UserService implements BasicService<User>, UserDetailsService {
     validatePassword(user.getPassword());
     String hashedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
     user.setPassword(hashedPassword);
+    user.setStatus(UserStatus.NOT_CONFIRMED);
     return userRepository.save(user);
   }
 
@@ -141,5 +143,13 @@ public class UserService implements BasicService<User>, UserDetailsService {
     user.getBills().remove(bill);
     userRepository.save(user);
     return bill;
+  }
+
+  public User confirmUser(Long id) {
+    User user = getById(id);
+
+    user.setStatus(UserStatus.CONFIRMED);
+
+    return userRepository.save(user);
   }
 }

@@ -2,14 +2,28 @@ package com.pedroresende.rateiofacil.listeners;
 
 import com.pedroresende.rateiofacil.exceptions.BadRequestException;
 import com.pedroresende.rateiofacil.models.entities.User;
+import com.pedroresende.rateiofacil.services.Emailservice;
+import com.pedroresende.rateiofacil.services.TokenService;
+import jakarta.persistence.PostPersist;
+import jakarta.persistence.PostUpdate;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserListener {
+
+  private final TokenService tokenService;
+  private final Emailservice emailservice;
+
+  public UserListener(TokenService tokenService, Emailservice emailservice) {
+    this.tokenService = tokenService;
+    this.emailservice = emailservice;
+  }
 
   private void validateEmail(String email) {
     if (email == null) {
@@ -66,5 +80,20 @@ public class UserListener {
   @PreUpdate
   public void validateUpdateUser(User user) {
     validateUser(user);
+  }
+
+  @PostPersist
+  public void senEmailConfirm(User user) {
+    String token = tokenService.generateToken(user);
+
+    if (user.getRole() != "admin") {
+
+      String confirmatilUrl = "http://localhost:5173/confirmacao?token=" + token;
+
+      String emailMessage =
+          "Clique no link a seguir para confirmar seus cadastro: " + confirmatilUrl;
+
+      emailservice.sendEmail(user.getEmail(), "Confirmação de Cadastro(rateiofacil)", emailMessage);
+    }
   }
 }
