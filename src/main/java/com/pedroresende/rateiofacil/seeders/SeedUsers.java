@@ -42,7 +42,8 @@ public class SeedUsers implements CommandLineRunner {
       String hashedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
       user.setPassword(hashedPassword);
       userRepository.save(user);
+    } else {
+      System.out.println("Admin já existente!");
     }
-    System.out.println("Admin já existente!");
   }
 }

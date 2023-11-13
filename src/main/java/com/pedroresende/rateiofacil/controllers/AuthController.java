@@ -58,7 +58,7 @@ public class AuthController {
       User user = (User) auth.getPrincipal();
 
       UserDto userDto = new UserDto(user.getId(), user.getName(), user.getEmail(),
-          authenticationDto.username());
+          authenticationDto.username(), user.getStatus());
 
       TokenDto tokenDto = new TokenDto(tokenService.generateToken(user), userDto);
 

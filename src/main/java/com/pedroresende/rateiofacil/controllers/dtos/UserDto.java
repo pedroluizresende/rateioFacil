@@ -1,5 +1,7 @@
 package com.pedroresende.rateiofacil.controllers.dtos;
 
+import com.pedroresende.rateiofacil.enums.UserStatus;
+
 /**
  * UserDto, Formato de retorno de informações de usuário.
  *
@@ -8,6 +10,6 @@ package com.pedroresende.rateiofacil.controllers.dtos;
  * @param email    email do usuário.
  * @param username username do usuário.
  */
-public record UserDto(Long id, String name, String email, String username) {
+public record UserDto(Long id, String name, String email, String username, UserStatus status) {
 
 }
