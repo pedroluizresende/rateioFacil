@@ -63,7 +63,8 @@ public class UserController {
    * @return userDto a ser retornado.
    */
   private UserDto toUserDto(User user) {
-    return new UserDto(user.getId(), user.getName(), user.getEmail(), user.getUsername(), user.getStatus());
+    return new UserDto(user.getId(), user.getName(), user.getEmail(), user.getUsername(),
+        user.getStatus());
   }
 
   /**
