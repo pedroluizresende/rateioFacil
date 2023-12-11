@@ -31,6 +31,12 @@ public class TokenService {
         .withExpiresAt(generateExpirationDate(authenticationDto)).sign(algorithm);
   }
 
+  /**
+   * Método para criar token sem AuthenticationDto.
+   *
+   * @param user usuário que solicitou token.
+   * @return retorna token em formato String
+   */
   public String generateToken(User user) {
     Algorithm algorithm = Algorithm.HMAC256(secret);
     return JWT.create().withIssuer("rateiofacil").withSubject(user.getUsername())
@@ -38,7 +44,7 @@ public class TokenService {
   }
 
   private Instant generateExpirationDate(AuthenticationDto authenticationDto) {
-    if( authenticationDto != null) {
+    if (authenticationDto != null) {
       System.out.println(authenticationDto.remember());
       return LocalDateTime.now().plusMonths(1).toInstant(ZoneOffset.of("-03:00"));
     }
