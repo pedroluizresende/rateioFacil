@@ -6,6 +6,6 @@ package com.pedroresende.rateiofacil.controllers.dtos;
  * @param username username do usuario.
  * @param password senha do usuário.
  */
-public record AuthenticationDto(String username, String password) {
+public record AuthenticationDto(String username, String password, Boolean remember) {
 
 }

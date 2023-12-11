@@ -60,7 +60,7 @@ public class AuthController {
       UserDto userDto = new UserDto(user.getId(), user.getName(), user.getEmail(),
           authenticationDto.username(), user.getStatus());
 
-      TokenDto tokenDto = new TokenDto(tokenService.generateToken(user), userDto);
+      TokenDto tokenDto = new TokenDto(tokenService.generateToken(user, authenticationDto), userDto);
 
       ResponseDto<TokenDto> response = new ResponseDto<>("Pessoa autenticada com sucesso!",
           tokenDto);
