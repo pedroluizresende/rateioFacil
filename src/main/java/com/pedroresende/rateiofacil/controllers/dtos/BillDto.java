@@ -8,9 +8,9 @@ import java.time.LocalDate;
  * BillDto.
  */
 public record BillDto(Long id, Long userId, LocalDate date, String establishment, Double total,
-                      BillStatus status) {
+                      BillStatus status, String imgUrl) {
 
   public Bill toEntity() {
-    return new Bill(id, null, establishment, date, null, total, status);
+    return new Bill(id, null, establishment, date, null, total, status, imgUrl);
   }
 }

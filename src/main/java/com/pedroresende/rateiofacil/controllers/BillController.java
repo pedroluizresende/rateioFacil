@@ -2,6 +2,7 @@ package com.pedroresende.rateiofacil.controllers;
 
 import com.pedroresende.rateiofacil.controllers.dtos.BillDto;
 import com.pedroresende.rateiofacil.controllers.dtos.FriendConsumptionDto;
+import com.pedroresende.rateiofacil.controllers.dtos.ImgUrlDto;
 import com.pedroresende.rateiofacil.controllers.dtos.ItemDto;
 import com.pedroresende.rateiofacil.controllers.dtos.ResponseDto;
 import com.pedroresende.rateiofacil.controllers.dtos.SplitItemDto;
@@ -46,11 +47,11 @@ public class BillController {
 
     if (bill.getUser() == null) {
       return new BillDto(bill.getId(), null, bill.getDate(),
-          bill.getEstablishment(), bill.getTotal(), bill.getStatus());
+          bill.getEstablishment(), bill.getTotal(), bill.getStatus(), bill.getImgUrl());
     }
 
     return new BillDto(bill.getId(), bill.getUser().getId(), bill.getDate(),
-        bill.getEstablishment(), bill.getTotal(), bill.getStatus());
+        bill.getEstablishment(), bill.getTotal(), bill.getStatus(), bill.getImgUrl());
   }
 
   @GetMapping
@@ -223,5 +224,24 @@ public class BillController {
         "Conta adicionada e dividida corretamente!", itemDtos);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+  }
+
+  @PutMapping("/{id}/imgUrl")
+  ResponseEntity<ResponseDto<BillDto>> addImgUrl(@PathVariable Long id,
+      @RequestBody ImgUrlDto imgUrlDto,
+      @AuthenticationPrincipal User user
+  ) {
+    validateUserPermission(id, user);
+
+    System.out.println("_------------------------------------------------");
+    System.out.println(imgUrlDto.imgUrl());
+
+    Bill bill = billService.addImgUrl(id, imgUrlDto.imgUrl());
+
+    BillDto billDto = toBillDto(bill);
+
+    ResponseDto<BillDto> responseDto = new ResponseDto<>("Url associada com sucesso", billDto);
+
+    return ResponseEntity.ok(responseDto);
   }
 }

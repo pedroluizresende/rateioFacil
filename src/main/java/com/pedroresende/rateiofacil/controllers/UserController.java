@@ -166,11 +166,11 @@ public class UserController {
 
     if (bill.getUser() == null) {
       return new BillDto(bill.getId(), null, bill.getDate(), bill.getEstablishment(),
-          Calculator.sumValues(bill.getTotal(), 0.0), bill.getStatus());
+          Calculator.sumValues(bill.getTotal(), 0.0), bill.getStatus(), bill.getImgUrl());
     }
 
     return new BillDto(bill.getId(), bill.getUser().getId(), bill.getDate(),
-        bill.getEstablishment(), bill.getTotal(), bill.getStatus());
+        bill.getEstablishment(), bill.getTotal(), bill.getStatus(), bill.getImgUrl());
   }
 
   private BillDtoWithitems toBillDtoWithitems(Bill bill) {
