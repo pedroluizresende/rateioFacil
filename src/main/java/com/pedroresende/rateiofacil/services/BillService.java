@@ -170,4 +170,19 @@ public class BillService implements BasicService<Bill> {
     }
     return itemListFromDb;
   }
+
+  /**
+   * Método responsável por adicionar uma url de imagem à uma conta.
+   *
+   * @param id     identificador da conta no banco.
+   * @param imgUrl string que representa a url da imagem.
+   * @return instancia objeto da classe Bill atualizado
+   */
+  public Bill addImgUrl(Long id, String imgUrl) {
+    Bill bill = getById(id);
+
+    bill.setImgUrl(imgUrl);
+
+    return billRepository.save(bill);
+  }
 }

@@ -44,6 +44,8 @@ public class Bill {
 
   private BillStatus status;
 
+  private String imgUrl;
+
 
   public Bill() {
   }
@@ -52,7 +54,7 @@ public class Bill {
    * Método construtor com parametros.
    */
   public Bill(Long id, User user, String establishment, LocalDate date, List<Item> items,
-      Double total, BillStatus status) {
+      Double total, BillStatus status, String imgUrl) {
     this.id = id;
     this.user = user;
     this.establishment = establishment;
@@ -60,6 +62,7 @@ public class Bill {
     this.total = total;
     this.status = status;
     this.items = items;
+    this.imgUrl = imgUrl;
   }
 
   public Long getId() {
@@ -116,5 +119,13 @@ public class Bill {
 
   public void setItems(List<Item> items) {
     this.items = items;
+  }
+
+  public String getImgUrl() {
+    return imgUrl;
+  }
+
+  public void setImgUrl(String imgUrl) {
+    this.imgUrl = imgUrl;
   }
 }
