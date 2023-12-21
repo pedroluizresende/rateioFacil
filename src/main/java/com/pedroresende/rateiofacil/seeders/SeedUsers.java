@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class SeedUsers implements CommandLineRunner {
 
-  private UserRepository userRepository;
-  private Environment env;
+  private final UserRepository userRepository;
+  private final Environment env;
 
   @Autowired
   public SeedUsers(UserRepository userRepository, Environment env) {
@@ -26,11 +26,10 @@ public class SeedUsers implements CommandLineRunner {
   }
 
   @Override
-  public void run(String... args) throws Exception {
-    List<User> allUsers = userRepository.findAll();
+  public void run(String... args) {
     System.out.println("-----------------------Seeders---------------------");
 
-    if (allUsers.size() == 0) {
+    if (userRepository.count() == 0) {
       System.out.println("Criando admin!");
       String adminName = env.getProperty("admin.name", "Admin");
       String adminEmail = env.getProperty("admin.email", "admin@admin.com");

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmação de Cadastro</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 0;
+        margin: 0;
+    }
+
+    .container {
+        background-color: #ffffff;
+        max-width: 600px;
+        margin: 0 auto;
+        padding:30px 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        font-size: 16px;
+        max-width: 600px;
+    }
+
+    h1 {
+        color: #333;
+        font-size: 1.9rem;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    h2 {
+        color: #333;
+        font-size: 1.5rem;
+        margin-bottom: 15x;
+    }
+
+    p {
+        color: #333;
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+
+    .button {
+        border-radius: 0.5rem;
+        background: rgba(85, 132, 122, 0.97);
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin: 0;
+        font-size: 14px;
+        padding: 1rem;
+        width: 50%;
+        transition: 0.3s;
+        text-decoration: none;
+        text-align: center;
+}
+
+    .button:hover {
+        background-color: rgba(85, 132, 122, 0.8);
+    }
+
+    .button:active {
+        background-color: rgba(85, 132, 122, 0.6);
+    }
+
+    /* Estilos para dispositivos móveis */
+    @media only screen and (max-width: 600px) {
+        .container {
+            width: 100%;
+            border-radius: 0;
+        }
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <h1>Confirmação de Cadastro</h1>
+  <h2>Olá, ${username}!</h2>
+  <p>Seja bem-vindo(a) ao <strong>Rateio Facil</strong>, Clique no botão abaixo para confirmar seu cadastro:</p>
+  <a href="${confirmationUrl}" class="button">Confirmar Cadastro</a>
+</div>
+</body>
+
+</html>

@@ -2,6 +2,8 @@ package com.pedroresende.rateiofacil.utils;
 
 import com.pedroresende.rateiofacil.controllers.dtos.FriendConsumptionDto;
 import com.pedroresende.rateiofacil.models.entities.Item;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -14,10 +16,7 @@ public class Calculator {
    */
   public static Double addItem(Double total, Double itemValue) {
     double result = total + itemValue;
-
-    result = Math.round(result * 100) / 100.0;
-
-    return result;
+    return round(result);
   }
 
   /**
@@ -25,10 +24,9 @@ public class Calculator {
    */
   public static Double calculateTaxService(Double value) {
     double tax = 0.10;
-
     double taxService = value * tax;
 
-    return taxService;
+    return round(taxService);
   }
 
   /**
@@ -37,6 +35,12 @@ public class Calculator {
   public static Double sumValues(double value1, double value2) {
     double result = value1 + value2;
 
-    return result;
+    return round(result);
+  }
+
+  private static Double round(double value) {
+    BigDecimal bd = BigDecimal.valueOf(value);
+    bd = bd.setScale(2, RoundingMode.HALF_UP);
+    return bd.doubleValue();
   }
 }
