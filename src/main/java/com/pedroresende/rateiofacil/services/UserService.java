@@ -31,33 +31,30 @@ public class UserService implements BasicService<User>, UserDetailsService {
   }
 
   private void validatePassword(String password) {
-
     if (password == null) {
       throw new BadRequestException("Senha é obrigatória!");
     }
-
     if (password.length() < 6) {
       throw new BadRequestException("A senha precisa ter no mínimo 6 caracteres!");
     }
   }
 
+  private String encodePassword(String password) {
+    validatePassword(password);
+    return new BCryptPasswordEncoder().encode(password);
+  }
+
   @Override
   public User create(User user) {
-    validatePassword(user.getPassword());
-    String hashedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
-    user.setPassword(hashedPassword);
+    user.setPassword(encodePassword(user.getPassword()));
     user.setStatus(UserStatus.NOT_CONFIRMED);
     return userRepository.save(user);
   }
 
   @Override
   public User getById(Long id) {
-    Optional<User> optionalUser = userRepository.findById(id);
-    if (optionalUser.isEmpty()) {
-      throw new NotFoundUserException();
-    }
-
-    return optionalUser.get();
+    return userRepository.findById(id)
+        .orElseThrow(NotFoundUserException::new);
   }
 
   @Override
@@ -112,8 +109,7 @@ public class UserService implements BasicService<User>, UserDetailsService {
    */
   public List<Bill> getAllBill(Long id) {
     User user = getById(id);
-    List<Bill> bills = billService.getAllByUserId(user.getId());
-    return bills;
+    return billService.getAllByUserId(user.getId());
   }
 
   /**
@@ -125,8 +121,7 @@ public class UserService implements BasicService<User>, UserDetailsService {
    */
   public Bill getBill(Long id, Long billId) {
     User user = getById(id);
-    Bill bill = billService.getById(billId);
-    return bill;
+    return billService.getById(billId);
   }
 
   /**
@@ -153,9 +148,7 @@ public class UserService implements BasicService<User>, UserDetailsService {
    */
   public User confirmUser(Long id) {
     User user = getById(id);
-
     user.setStatus(UserStatus.CONFIRMED);
-
     return userRepository.save(user);
   }
 }

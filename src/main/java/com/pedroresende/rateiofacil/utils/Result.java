@@ -1,9 +1,6 @@
 package com.pedroresende.rateiofacil.utils;
 
-import com.pedroresende.rateiofacil.models.entities.Item;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Classe Result.
@@ -11,31 +8,24 @@ import java.util.List;
 public class Result {
 
   private Long userId;
-
   private Long billId;
-
   private String establishment;
-
   private LocalDate date;
-
   private Double taxService;
-
   private Double value;
-
   private Double total;
 
   /**
    * Método construtor com parametros.
    */
-  public Result(Long userId, Long billId, String establishment, LocalDate date, Double value,
-      List<Item> items) {
+  public Result(Long userId, Long billId, String establishment, LocalDate date, Double value) {
     this.userId = userId;
     this.billId = billId;
     this.establishment = establishment;
     this.date = date;
     this.taxService = Calculator.calculateTaxService(value);
     this.value = value;
-    this.total = Calculator.sumValues(this.taxService, this.value);
+    this.total = calculateTotal();
   }
 
   public Long getUserId() {
@@ -92,5 +82,9 @@ public class Result {
 
   public void setTotal(Double total) {
     this.total = total;
+  }
+
+  private Double calculateTotal() {
+    return Calculator.sumValues(taxService, value);
   }
 }

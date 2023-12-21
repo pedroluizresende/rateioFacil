@@ -14,28 +14,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class ItemService implements BasicService<Item> {
 
-  private final ItemRepository intemRepository;
+  private final ItemRepository itemRepository;
 
   @Autowired
   public ItemService(ItemRepository orderRepository) {
-    this.intemRepository = orderRepository;
+    this.itemRepository = orderRepository;
   }
 
 
   @Override
   public Item create(Item item) {
-    return intemRepository.save(item);
+    return itemRepository.save(item);
   }
 
   @Override
   public Item getById(Long id) {
-    Optional<Item> optionalItem = intemRepository.findById(id);
-
-    if (optionalItem.isEmpty()) {
-      throw new NotFoundItemException();
-    }
-
-    return optionalItem.get();
+    return itemRepository.findById(id)
+        .orElseThrow(NotFoundItemException::new);
   }
 
   @Override
@@ -51,15 +46,15 @@ public class ItemService implements BasicService<Item> {
   @Override
   public Item delete(Long id) {
     Item item = getById(id);
-    intemRepository.deleteById(item.getId());
+    itemRepository.deleteById(item.getId());
     return item;
   }
 
   public List<Item> getAllByBillId(Long id) {
-    return intemRepository.findAllByBillId(id);
+    return itemRepository.findAllByBillId(id);
   }
 
   public List<Item> getByFriendAndBillId(String friend, Long billId) {
-    return intemRepository.findAllByFriendAndBillId(friend, billId);
+    return itemRepository.findAllByFriendAndBillId(friend, billId);
   }
 }

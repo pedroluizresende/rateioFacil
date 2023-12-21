@@ -3,6 +3,7 @@ package com.pedroresende.rateiofacil.listeners;
 import com.pedroresende.rateiofacil.exceptions.BadRequestException;
 import com.pedroresende.rateiofacil.models.entities.Item;
 import jakarta.persistence.PrePersist;
+import java.math.BigDecimal;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,13 +32,9 @@ public class ItemListener {
     }
   }
 
-  private void validateValue(Double value) {
-    if (value == null) {
-      throw new BadRequestException("Valor é obrigatório!");
-    }
-
-    if (value <= 0) {
-      throw new BadRequestException("Valor deve ser um número maior que zero!");
+  private void validateValue(BigDecimal value) {
+    if (value == null || value.compareTo(BigDecimal.ZERO) <= 0) {
+      throw new BadRequestException("Valor é obrigatório e deve ser um número maior que zero!");
     }
   }
 
@@ -45,6 +42,6 @@ public class ItemListener {
   void validateNewItem(Item item) {
     validateFriend(item.getFriend());
     validateDescription(item.getDescription());
-    validateValue(item.getValue());
+    validateValue(BigDecimal.valueOf(item.getValue()));
   }
 }

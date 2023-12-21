@@ -124,7 +124,7 @@ public class BillController {
       @AuthenticationPrincipal User user) {
     validateUserPermission(id, user);
 
-    List<Item> items = billService.getitems(id);
+    List<Item> items = billService.getItems(id);
 
     List<ItemDto> itemDtos = items.stream()
         .map(item -> toItemDto(item)).toList();

@@ -105,7 +105,7 @@ public class BillService implements BasicService<Bill> {
   /**
    * Método responsável por recuperar items de uma conta.
    */
-  public List<Item> getitems(Long id) {
+  public List<Item> getItems(Long id) {
     Bill bill = getById(id);
 
     return itemService.getAllByBillId(bill.getId());
@@ -139,7 +139,7 @@ public class BillService implements BasicService<Bill> {
   public Result calculate(Long id) {
     Bill bill = getById(id);
     Result result = new Result(bill.getUser().getId(), bill.getId(), bill.getEstablishment(),
-        bill.getDate(), bill.getTotal(), bill.getItems());
+        bill.getDate(), bill.getTotal());
 
     return result;
   }
