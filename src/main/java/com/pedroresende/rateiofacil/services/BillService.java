@@ -63,7 +63,6 @@ public class BillService implements BasicService<Bill> {
   @Override
   public Bill delete(Long id) {
     Bill bill = getById(id);
-
     billRepository.deleteById(id);
     return bill;
   }
