@@ -29,8 +29,7 @@ public class ItemService implements BasicService<Item> {
 
   @Override
   public Item getById(Long id) {
-    return itemRepository.findById(id)
-        .orElseThrow(NotFoundItemException::new);
+    return itemRepository.findById(id).orElseThrow(NotFoundItemException::new);
   }
 
   @Override
@@ -40,7 +39,11 @@ public class ItemService implements BasicService<Item> {
 
   @Override
   public Item update(Long id, Item entity) {
-    return null;
+    Item item = getById(id);
+    item.setDescription(entity.getDescription());
+    item.setValue(entity.getValue());
+    item.setFriend(entity.getFriend());
+    return itemRepository.save(item);
   }
 
   @Override

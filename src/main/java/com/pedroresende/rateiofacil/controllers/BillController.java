@@ -150,17 +150,25 @@ public class BillController {
    * Mapeamento da rota DELETE /bills/{id}/items/{itemId}, deleta item de uma conta.
    */
   @DeleteMapping("/{id}/items/{itemId}")
-  public ResponseEntity<ResponseDto<ItemDto>> removeItem(@PathVariable Long id,
+  public ResponseEntity<ResponseDto> removeItem(@PathVariable Long id,
       @PathVariable Long itemId,
+      @RequestParam(name = "split") Boolean split,
       @AuthenticationPrincipal User user) {
     validateUserPermission(id, user);
 
-    Item item = billService.removeItem(id, itemId);
-    ItemDto itemDto = toItemDto(item);
+    Item item;
 
-    ResponseDto<ItemDto> responseDto = new ResponseDto<>("Item Removido com sucesso!", itemDto);
-
-    return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    if (split) {
+      item = billService.removeItem(id, itemId);
+      ItemDto itemDto = toItemDto(item);
+      ResponseDto<ItemDto> responseDto = new ResponseDto<>("Item Removido com sucesso!", itemDto);
+      return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
+    List<Item> items = billService.removeSplitItem(id, itemId);
+    List<ItemDto> itemDtoList = items.stream().map(item1 -> toItemDto(item1)).toList();
+    ResponseDto<List<ItemDto>> responseDto = new ResponseDto<>("Item Removido com sucesso!",
+        itemDtoList);
+    return ResponseEntity.ok(responseDto);
   }
 
   /**
@@ -232,9 +240,6 @@ public class BillController {
       @AuthenticationPrincipal User user
   ) {
     validateUserPermission(id, user);
-
-    System.out.println("_------------------------------------------------");
-    System.out.println(imgUrlDto.imgUrl());
 
     Bill bill = billService.addImgUrl(id, imgUrlDto.imgUrl());
 
