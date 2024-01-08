@@ -63,7 +63,6 @@ public class BillService implements BasicService<Bill> {
   @Override
   public Bill delete(Long id) {
     Bill bill = getById(id);
-
     billRepository.deleteById(id);
     return bill;
   }
@@ -117,8 +116,9 @@ public class BillService implements BasicService<Bill> {
   @Transactional
   public Item removeItem(Long id, Long itemId) {
     Bill bill = getById(id);
-    Item item = itemService.delete(id);
+    Item item = itemService.delete(itemId);
     bill.getItems().remove(item);
+    bill.setTotal(bill.getTotal() - item.getValue());
     billRepository.save(bill);
 
     return item;
@@ -185,4 +185,32 @@ public class BillService implements BasicService<Bill> {
 
     return billRepository.save(bill);
   }
+
+  /**
+   * Método responsásavel por remover um item que foi dividio.
+   *
+   * @param id     id da conta.
+   * @param itemId id do item a ser removido.
+   * @return retorna lista de pedidos atualizadas
+   */
+
+  public List<Item> removeSplitItem(Long id, Long itemId) {
+    Bill bill = getById(id);
+    Double total = bill.getTotal();
+    Item deletedItem = removeItem(id, itemId);
+
+    List<Item> items = bill.getItems().stream()
+        .filter(item -> item.getDescription().equals(deletedItem.getDescription())).toList();
+    if (!items.isEmpty()) {
+      for (Item item : items) {
+        item.setValue(deletedItem.getValue() * (items.size() + 1) / items.size());
+        itemService.update(item.getId(), item);
+      }
+    }
+
+    bill.setTotal(total);
+    billRepository.save(bill);
+    return bill.getItems();
+  }
+
 }
