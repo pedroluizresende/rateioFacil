@@ -207,8 +207,10 @@ public class BillService implements BasicService<Bill> {
         itemService.update(item.getId(), item);
       }
     }
+    if (!items.isEmpty()) {
+      bill.setTotal(total);
 
-    bill.setTotal(total);
+    }
     billRepository.save(bill);
     return bill.getItems();
   }
